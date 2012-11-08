@@ -1,0 +1,109 @@
+module NQL
+  grammar Syntax
+
+    rule expression
+      boolean / primary
+    end
+
+    rule boolean
+      left:primary space coordinator:coordinator space right:expression {
+        def to_ransack
+          group = {'g' => [{'m' => coordinator.to_ransack}]}
+
+          [left, right].each do |side|
+            if side.is_node?(:boolean)
+              group['g'][0].merge! side.to_ransack
+            else
+              group['g'][0]['c'] ||= []
+              group['g'][0]['c'] << side.to_ransack
+            end
+          end
+
+          group
+        end
+
+        def is_node?(node_type)
+          node_type.to_sym == :boolean
+        end
+      }
+    end
+
+    rule primary
+      (space comparison space / '(' space expression space ')') {
+        def to_ransack
+          detect_node.to_ransack
+        end
+
+        def detect_node
+          self.send %w(comparison expression).detect { |m| self.respond_to? m }
+        end
+
+        def is_node?(node_type)
+          detect_node.is_node?(node_type)
+        end
+      }
+    end
+
+    rule coordinator
+      ('|' / '&') {
+        def to_ransack
+          coordinators = {'|' => 'or', '&' => 'and'}
+          coordinators[text_value]
+        end
+      }
+    end
+
+    rule comparison
+      variable:alphanumeric space comparator:comparator space value:text {
+        def to_ransack
+          hash = {'a' => {'0' => {'name' => self.variable.text_value.gsub('.', '_')}}, 'p' => self.comparator.to_ransack, 'v' => {'0' => {'value' => self.value.text_value}}}
+          hash = {'c' => [hash]} if !parent || !parent.parent || text_value == parent.parent.text_value
+          hash
+        end
+
+        def is_node?(node_type)
+          node_type.to_sym == :comparison
+        end
+      }
+    end
+
+    rule comparator
+      ('=' / '!=' / '>' / '>=' / '<' / '<=' / '%')+ {
+        def to_ransack
+          comparators = {
+            '=' => 'eq',
+            '!=' => 'not_eq',
+            '>' => 'gt',
+            '>=' => 'gteq',
+            '<' => 'lt',
+            '<=' => 'lteq',
+            '%' => 'cont'
+          }
+          comparators[text_value]
+        end
+      }
+    end
+
+    rule text
+      (alphanumeric / utf8 / symbol)+
+      (space (alphanumeric / utf8 / symbol)+)*
+    end
+
+    rule alphanumeric
+      [a-zA-Z0-9_.]+
+    end
+
+    rule space
+      ' '*
+    end
+
+    rule symbol
+      [><=+-\/\\@#$%!?:]
+    end
+
+    rule utf8
+      [\u00c1\u00c0\u00c9\u00c8\u00cd\u00cc\u00d3\u00d2\u00da\u00d9\u00dc\u00d1\u00c7\u00e1\u00e0\u00e9\u00e8\u00ed\u00ec\u00f3\u00f2\u00fa\u00f9\u00fc\u00f1\u00e7]
+    end
+
+  end
+end
