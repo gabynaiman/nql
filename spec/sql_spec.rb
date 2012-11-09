@@ -90,4 +90,28 @@ describe 'SQL generation' do
 
   end
 
+  context 'Invalid queries' do
+
+    it 'Nil' do
+      q = nil
+      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\""
+    end
+
+    it 'Empty' do
+      q = ''
+      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\""
+    end
+
+    it 'Empty with spaces' do
+      q = '   '
+      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\""
+    end
+
+    it 'Partial expression' do
+      q = 'id ='
+      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE \"countries\".\"id\" = 0"
+    end
+
+  end
+
 end
