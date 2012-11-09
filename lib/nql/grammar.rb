@@ -63,14 +63,14 @@ module NQL
 
     module Boolean1
       def to_ransack
-        group = {'g' => [{'m' => coordinator.to_ransack}]}
+        group = {g: [{m: coordinator.to_ransack}]}
 
         [left, right].each do |side|
           if side.is_node?(:boolean)
-            group['g'][0].merge! side.to_ransack
+            group[:g][0].merge! side.to_ransack
           else
-            group['g'][0]['c'] ||= []
-            group['g'][0]['c'] << side.to_ransack
+            group[:g][0][:c] ||= []
+            group[:g][0][:c] << side.to_ransack
           end
         end
 
@@ -330,8 +330,8 @@ module NQL
 
     module Comparison1
       def to_ransack
-        hash = {'a' => {'0' => {'name' => self.variable.text_value.gsub('.', '_')}}, 'p' => self.comparator.to_ransack, 'v' => {'0' => {'value' => self.value.text_value}}}
-        hash = {'c' => [hash]} if !parent || !parent.parent || text_value == parent.parent.text_value
+        hash = {a: {'0' => {name: self.variable.text_value.gsub('.', '_')}}, p: self.comparator.to_ransack, v: {'0' => {value: self.value.text_value}}}
+        hash = {c: [hash]} if !parent || !parent.parent || text_value == parent.parent.text_value
         hash
       end
 
