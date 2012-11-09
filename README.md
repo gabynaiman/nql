@@ -16,9 +16,32 @@ Or install it yourself as:
 
     $ gem install nql
 
+## Supported comparators
+
+----------------------------------
+| Symbol | Description           |
+----------------------------------
+| %      | Contains              |
+| =      | Equals                |
+| !=     | Not equals            |
+| >      | Grater than           |
+| >=     | Grater or equals than |
+| <      | Less than             |
+| <=     | Less or equals than   |
+----------------------------------
+
+
 ## Usage
 
-TODO: Write usage instructions here
+    q = '(name % arg | name % br) & region = south'
+    Country.search(NQL.to_ransack(q)).result.to_sql
+    => "SELECT coutries.* FROM countries WHERE (countries.name LIKE '%arg%' OR countries.name LIKE '%br%') AND region = 'south'"
+
+### Joins support
+
+    q = 'cities.name % buenos'
+    Country.search(NQL.to_ransack(q)).result.to_sql
+    => "SELECT countries.* FROM countries LEFT OUTER JOIN cities ON countries.id = cities.country_id WHERE cities.name LIKE '%buenos%'"
 
 ## Contributing
 
