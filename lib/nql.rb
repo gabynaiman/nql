@@ -5,20 +5,21 @@ require 'ransack'
 
 require 'nql/version'
 require 'nql/grammar'
+require 'nql/invalid_expression_error'
 
 module NQL
 
   def self.to_ransack(query)
     return nil if query.nil? || query.strip.empty?
-    expression = SyntaxParser.new.parse(query)
-    return invalid_condition unless expression
+    expression = parser.parse(query)
+    raise InvalidExpressionError.new(parser.failure_reason) unless expression
     expression.to_ransack
   end
 
   private
 
-  def self.invalid_condition
-    {c: [{a: {'0' => {name: 'id'}}, p: 'eq', v: {'0' => {value: '0'}}}]}
+  def self.parser
+    @@parser ||= SyntaxParser.new
   end
 
 end

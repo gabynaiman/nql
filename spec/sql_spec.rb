@@ -109,7 +109,7 @@ describe 'SQL generation' do
 
     it 'Partial expression' do
       q = 'id ='
-      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE \"countries\".\"id\" = 0"
+      expect{Country.search(NQL.to_ransack(q)).result}.should raise_exception NQL::InvalidExpressionError
     end
 
   end
