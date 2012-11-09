@@ -41,7 +41,7 @@ describe 'SQL generation' do
     end
 
     it 'Contains' do
-      q = 'name % abcd'
+      q = 'name : abcd'
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" LIKE '%abcd%')"
     end
 
@@ -55,17 +55,17 @@ describe 'SQL generation' do
     end
 
     it 'Or' do
-      q = 'id < 1234 | name % abcd'
+      q = 'id < 1234 | name : abcd'
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE ((\"countries\".\"id\" < 1234 OR \"countries\".\"name\" LIKE '%abcd%'))"
     end
 
     it 'And then Or' do
-      q = 'id > 1234 & name = abcd | name % efgh'
+      q = 'id > 1234 & name = abcd | name : efgh'
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE ((\"countries\".\"id\" > 1234 AND (\"countries\".\"name\" = 'abcd' OR \"countries\".\"name\" LIKE '%efgh%')))"
     end
 
     it 'With parentheses' do
-      q = '(id > 1234 & name = abcd) | name % efgh'
+      q = '(id > 1234 & name = abcd) | name : efgh'
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE ((\"countries\".\"name\" LIKE '%efgh%' OR (\"countries\".\"id\" > 1234 AND \"countries\".\"name\" = 'abcd')))"
     end
 
@@ -74,17 +74,17 @@ describe 'SQL generation' do
   context 'Model joins' do
 
     it 'Parent join' do
-      q = 'country.name % abcd'
+      q = 'country.name : abcd'
       City.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"cities\".* FROM \"cities\" LEFT OUTER JOIN \"countries\" ON \"countries\".\"id\" = \"cities\".\"country_id\" WHERE (\"countries\".\"name\" LIKE '%abcd%')"
     end
 
     it 'Children join' do
-      q = 'cities.name % abcd'
+      q = 'cities.name : abcd'
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\" LEFT OUTER JOIN \"cities\" ON \"cities\".\"country_id\" = \"countries\".\"id\" WHERE (\"cities\".\"name\" LIKE '%abcd%')"
     end
 
     it 'Children join distinct' do
-      q = 'cities.name % abcd'
+      q = 'cities.name : abcd'
       Country.search(NQL.to_ransack(q)).result(distinct: true).should produce_sql "SELECT DISTINCT \"countries\".* FROM \"countries\" LEFT OUTER JOIN \"cities\" ON \"cities\".\"country_id\" = \"countries\".\"id\" WHERE (\"cities\".\"name\" LIKE '%abcd%')"
     end
 

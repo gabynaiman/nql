@@ -393,7 +393,7 @@ module NQL
           '>=' => 'gteq',
           '<' => 'lt',
           '<=' => 'lteq',
-          '%' => 'cont'
+          ':' => 'cont'
         }
         comparators[text_value]
       end
@@ -473,11 +473,11 @@ module NQL
                   if r7
                     r1 = r7
                   else
-                    if has_terminal?('%', false, index)
+                    if has_terminal?(':', false, index)
                       r8 = instantiate_node(SyntaxNode,input, index...(index + 1))
                       @index += 1
                     else
-                      terminal_parse_failure('%')
+                      terminal_parse_failure(':')
                       r8 = nil
                     end
                     if r8

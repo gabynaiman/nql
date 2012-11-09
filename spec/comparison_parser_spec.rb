@@ -55,10 +55,10 @@ describe NQL::SyntaxParser, '-> Comparison' do
     end
 
     it 'Contains' do
-      tree = parser.parse('var % value')
+      tree = parser.parse('var : value')
 
       tree.comparison.variable.text_value.should eq 'var'
-      tree.comparison.comparator.text_value.should eq '%'
+      tree.comparison.comparator.text_value.should eq ':'
       tree.comparison.value.text_value.should eq 'value'
     end
 

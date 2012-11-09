@@ -55,7 +55,7 @@ describe 'Ransack Query' do
     end
 
     it 'Contains' do
-      q = parser.parse('id % 1234').to_ransack
+      q = parser.parse('id : 1234').to_ransack
 
       q[:c][0].should have_attribute 'id'
       q[:c][0].should have_predicate 'cont'
@@ -87,7 +87,7 @@ describe 'Ransack Query' do
     end
 
     it 'Or' do
-      q = parser.parse('id < 1234 | name % abcd').to_ransack
+      q = parser.parse('id < 1234 | name : abcd').to_ransack
 
       q[:g][0][:m].should eq 'or'
       q[:g][0][:c][0].should have_attribute 'id'
@@ -99,7 +99,7 @@ describe 'Ransack Query' do
     end
 
     it 'And then Or' do
-      q = parser.parse('id > 1234 & name = abcd | name % efgh').to_ransack
+      q = parser.parse('id > 1234 & name = abcd | name : efgh').to_ransack
 
       q[:g][0][:m].should eq 'and'
       q[:g][0][:c][0].should have_attribute 'id'
@@ -115,7 +115,7 @@ describe 'Ransack Query' do
     end
 
     it 'With parentheses' do
-      q = parser.parse('(id > 1234 & name = abcd) | name % efgh').to_ransack
+      q = parser.parse('(id > 1234 & name = abcd) | name : efgh').to_ransack
 
       q[:g][0][:g][0][:m].should eq 'and'
       q[:g][0][:g][0][:c][0].should have_attribute 'id'

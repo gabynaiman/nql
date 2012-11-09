@@ -21,7 +21,7 @@ Or install it yourself as:
     ----------------------------------
     | Symbol | Description           |
     ----------------------------------
-    | %      | Contains              |
+    | :      | Contains              |
     | =      | Equals                |
     | !=     | Not equals            |
     | >      | Grater than           |
@@ -35,13 +35,13 @@ Or install it yourself as:
 
 Converts from natural language to query expression
 
-    q = '(name % arg | name % br) & region = south'
+    q = '(name: arg | name: br) & region = south'
     Country.search(NQL.to_ransack(q)).result.to_sql
     => "SELECT coutries.* FROM countries WHERE (countries.name LIKE '%arg%' OR countries.name LIKE '%br%') AND region = 'south'"
 
 ### Joins support
 
-    q = 'cities.name % buenos'
+    q = 'cities.name: buenos'
     Country.search(NQL.to_ransack(q)).result.to_sql
     => "SELECT countries.* FROM countries LEFT OUTER JOIN cities ON countries.id = cities.country_id WHERE cities.name LIKE '%buenos%'"
 
