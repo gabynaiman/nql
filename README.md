@@ -18,20 +18,22 @@ Or install it yourself as:
 
 ## Supported comparators
 
-----------------------------------
-| Symbol | Description           |
-----------------------------------
-| %      | Contains              |
-| =      | Equals                |
-| !=     | Not equals            |
-| >      | Grater than           |
-| >=     | Grater or equals than |
-| <      | Less than             |
-| <=     | Less or equals than   |
-----------------------------------
+    ----------------------------------
+    | Symbol | Description           |
+    ----------------------------------
+    | %      | Contains              |
+    | =      | Equals                |
+    | !=     | Not equals            |
+    | >      | Grater than           |
+    | >=     | Grater or equals than |
+    | <      | Less than             |
+    | <=     | Less or equals than   |
+    ----------------------------------
 
 
 ## Usage
+
+Converts from natural language to query expression
 
     q = '(name % arg | name % br) & region = south'
     Country.search(NQL.to_ransack(q)).result.to_sql
