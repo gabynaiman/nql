@@ -109,7 +109,7 @@ describe 'SQL generation' do
 
     it 'Partial expression' do
       q = 'id ='
-      expect{Country.search(NQL.to_ransack(q)).result}.should raise_exception NQL::InvalidExpressionError
+      expect { Country.search(NQL.to_ransack(q)).result }.to raise_exception NQL::InvalidExpressionError
     end
 
   end
