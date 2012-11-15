@@ -18,17 +18,18 @@ Or install it yourself as:
 
 ## Supported comparators
 
-    ----------------------------------
-    | Symbol | Description           |
-    ----------------------------------
-    | :      | Contains              |
-    | =      | Equals                |
-    | !=     | Not equals            |
-    | >      | Grater than           |
-    | >=     | Grater or equals than |
-    | <      | Less than             |
-    | <=     | Less or equals than   |
-    ----------------------------------
+    --------------------------------------
+    | Symbol | Description               |
+    --------------------------------------
+    | :      | Contains                  |
+    | =      | Equals                    |
+    | !=     | Not equals                |
+    | >      | Grater than               |
+    | >=     | Grater or equals than     |
+    | <      | Less than                 |
+    | <=     | Less or equals than       |
+    | ~      | Matches (eq ignore case)  |
+    --------------------------------------
 
 
 ## Usage

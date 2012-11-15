@@ -62,6 +62,14 @@ describe 'Ransack Query' do
       q[:c][0].should have_value '1234'
     end
 
+    it 'Matches' do
+      q = parser.parse('id ~ 1234').to_ransack
+
+      q[:c][0].should have_attribute 'id'
+      q[:c][0].should have_predicate 'matches'
+      q[:c][0].should have_value '1234'
+    end
+
     it 'Model references' do
       q = parser.parse('models.id = 1234').to_ransack
 

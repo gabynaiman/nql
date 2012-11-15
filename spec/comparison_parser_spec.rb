@@ -62,6 +62,14 @@ describe NQL::SyntaxParser, '-> Comparison' do
       tree.comparison.value.text_value.should eq 'value'
     end
 
+    it 'Matches' do
+      tree = parser.parse('var ~ value')
+
+      tree.comparison.variable.text_value.should eq 'var'
+      tree.comparison.comparator.text_value.should eq '~'
+      tree.comparison.value.text_value.should eq 'value'
+    end
+
   end
 
   context 'Space separators' do

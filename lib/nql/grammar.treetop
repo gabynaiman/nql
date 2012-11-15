@@ -68,7 +68,7 @@ module NQL
     end
 
     rule comparator
-      ('=' / '!=' / '>' / '>=' / '<' / '<=' / ':')+ {
+      ('=' / '!=' / '>' / '>=' / '<' / '<=' / ':' / '~')+ {
         def to_ransack
           comparators = {
             '=' => 'eq',
@@ -77,7 +77,8 @@ module NQL
             '>=' => 'gteq',
             '<' => 'lt',
             '<=' => 'lteq',
-            ':' => 'cont'
+            ':' => 'cont',
+            '~' => 'matches'
           }
           comparators[text_value]
         end

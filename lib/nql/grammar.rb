@@ -393,7 +393,8 @@ module NQL
           '>=' => 'gteq',
           '<' => 'lt',
           '<=' => 'lteq',
-          ':' => 'cont'
+          ':' => 'cont',
+          '~' => 'matches'
         }
         comparators[text_value]
       end
@@ -483,8 +484,19 @@ module NQL
                     if r8
                       r1 = r8
                     else
-                      @index = i1
-                      r1 = nil
+                      if has_terminal?('~', false, index)
+                        r9 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                        @index += 1
+                      else
+                        terminal_parse_failure('~')
+                        r9 = nil
+                      end
+                      if r9
+                        r1 = r9
+                      else
+                        @index = i1
+                        r1 = nil
+                      end
                     end
                   end
                 end

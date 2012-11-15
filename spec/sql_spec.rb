@@ -45,6 +45,11 @@ describe 'SQL generation' do
       Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" LIKE '%abcd%')"
     end
 
+    it 'Matches' do
+      q = 'name ~ abcd'
+      Country.search(NQL.to_ransack(q)).result.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" LIKE 'abcd')"
+    end
+
   end
 
   context 'Coordinated comparisons' do
