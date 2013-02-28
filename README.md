@@ -1,5 +1,7 @@
 # NQL
 
+[![Build Status](https://travis-ci.org/gabynaiman/nql.png)](https://travis-ci.org/gabynaiman/nql)
+
 Natural Query Language built on top of ActiveRecord and Ransack
 
 ## Installation
@@ -36,15 +38,28 @@ Or install it yourself as:
 
 Converts from natural language to query expression
 
-    q = '(name: arg | name: br) & region = south'
-    Country.search(NQL.to_ransack(q)).result.to_sql
+    Country.nql('(name: arg | name: br) & region = south').to_sql
     => "SELECT coutries.* FROM countries WHERE (countries.name LIKE '%arg%' OR countries.name LIKE '%br%') AND region = 'south'"
 
 ### Joins support
 
-    q = 'cities.name: buenos'
-    Country.search(NQL.to_ransack(q)).result.to_sql
+    Country.nql('cities.name: buenos').to_sql
     => "SELECT countries.* FROM countries LEFT OUTER JOIN cities ON countries.id = cities.country_id WHERE cities.name LIKE '%buenos%'"
+
+### Invalid expressions handling
+
+Safe query
+
+    Country.nql('xyz').to_sql
+    => "SELECT coutries.* FROM countries WHERE (1=2)
+
+Raising exceptions
+
+    Country.nql!('xyz') => raise NQL::SyntaxError
+
+    Country.nql!('xyz: arg') => raise NQL::AttributesNotFoundError
+
+    Country.nql!(1234) => raise NQL::DataTypeError
 
 ## Contributing
 

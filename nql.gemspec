@@ -15,10 +15,10 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
 
-  s.add_dependency 'treetop'
+  s.add_dependency 'treetop', '~> 1.4'
   s.add_dependency 'activerecord', '>= 3.2.0'
   s.add_dependency 'activesupport', '>= 3.2.0'
-  s.add_dependency 'ransack'
+  s.add_dependency 'ransack', '~> 0.7'
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec'
