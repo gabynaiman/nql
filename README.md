@@ -1,6 +1,6 @@
 # NQL
 
-[![Build Status](https://travis-ci.org/gabynaiman/nql.png)](https://travis-ci.org/gabynaiman/nql)
+[![Build Status](https://travis-ci.org/gabynaiman/nql.png?branch=master)](https://travis-ci.org/gabynaiman/nql)
 
 Natural Query Language built on top of ActiveRecord and Ransack
 
