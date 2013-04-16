@@ -62,6 +62,14 @@ describe 'Ransack Query' do
       q[:c][0].should have_value '1234'
     end
 
+    it 'Not contains' do
+      q = parser.parse('id !: 1234').to_ransack
+
+      q[:c][0].should have_attribute 'id'
+      q[:c][0].should have_predicate 'not_cont'
+      q[:c][0].should have_value '1234'
+    end
+
     it 'Matches' do
       q = parser.parse('id ~ 1234').to_ransack
 

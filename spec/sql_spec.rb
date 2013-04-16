@@ -45,6 +45,11 @@ describe 'SQL generation' do
       Country.nql(q).should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" LIKE '%abcd%')"
     end
 
+    it 'Not contains' do
+      q = 'name !: abcd'
+      Country.nql(q).should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" NOT LIKE '%abcd%')"
+    end
+
     it 'Matches' do
       q = 'name ~ abcd'
       Country.nql(q).should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" LIKE 'abcd')"
