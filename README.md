@@ -24,6 +24,7 @@ Or install it yourself as:
     | Symbol | Description               |
     --------------------------------------
     | :      | Contains                  |
+    | !:     | Not contains              |
     | =      | Equals                    |
     | !=     | Not equals                |
     | >      | Grater than               |
