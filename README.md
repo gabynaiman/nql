@@ -1,5 +1,6 @@
 # NQL
 
+[![Gem Version](https://badge.fury.io/rb/nql.png)](https://rubygems.org/gems/nql)
 [![Build Status](https://travis-ci.org/gabynaiman/nql.png?branch=master)](https://travis-ci.org/gabynaiman/nql)
 [![Coverage Status](https://coveralls.io/repos/gabynaiman/nql/badge.png?branch=master)](https://coveralls.io/r/gabynaiman/nql?branch=master)
 [![Code Climate](https://codeclimate.com/github/gabynaiman/nql.png)](https://codeclimate.com/github/gabynaiman/nql)
