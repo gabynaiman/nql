@@ -1,3 +1,4 @@
+require 'coverage_helper'
 require 'nql'
 
 Dir["#{File.dirname(__FILE__)}/models/**/*.rb"].each {|f| require f}
