@@ -145,7 +145,7 @@ module NQL
         elements[1]
       end
 
-      def expression
+      def comparison
         elements[2]
       end
 
@@ -156,6 +156,21 @@ module NQL
     end
 
     module Primary2
+      def space1
+        elements[1]
+      end
+
+      def expression
+        elements[2]
+      end
+
+      def space2
+        elements[3]
+      end
+
+    end
+
+    module Primary3
       def to_ransack
         detect_node.to_ransack
       end
@@ -201,7 +216,7 @@ module NQL
       end
       if r1
         r0 = r1
-        r0.extend(Primary2)
+        r0.extend(Primary3)
       else
         i5, s5 = index, []
         if has_terminal?('(', false, index)
@@ -216,7 +231,7 @@ module NQL
           r7 = _nt_space
           s5 << r7
           if r7
-            r8 = _nt_expression
+            r8 = _nt_comparison
             s5 << r8
             if r8
               r9 = _nt_space
@@ -243,10 +258,53 @@ module NQL
         end
         if r5
           r0 = r5
-          r0.extend(Primary2)
+          r0.extend(Primary3)
         else
-          @index = i0
-          r0 = nil
+          i11, s11 = index, []
+          if has_terminal?('(', false, index)
+            r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
+            @index += 1
+          else
+            terminal_parse_failure('(')
+            r12 = nil
+          end
+          s11 << r12
+          if r12
+            r13 = _nt_space
+            s11 << r13
+            if r13
+              r14 = _nt_expression
+              s11 << r14
+              if r14
+                r15 = _nt_space
+                s11 << r15
+                if r15
+                  if has_terminal?(')', false, index)
+                    r16 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                    @index += 1
+                  else
+                    terminal_parse_failure(')')
+                    r16 = nil
+                  end
+                  s11 << r16
+                end
+              end
+            end
+          end
+          if s11.last
+            r11 = instantiate_node(SyntaxNode,input, i11...index, s11)
+            r11.extend(Primary2)
+          else
+            @index = i11
+            r11 = nil
+          end
+          if r11
+            r0 = r11
+            r0.extend(Primary3)
+          else
+            @index = i0
+            r0 = nil
+          end
         end
       end
 

@@ -29,7 +29,7 @@ module NQL
     end
 
     rule primary
-      (space comparison space / '(' space expression space ')') {
+      (space comparison space / '(' space comparison space ')' / '(' space expression space ')') {
         def to_ransack
           detect_node.to_ransack
         end
