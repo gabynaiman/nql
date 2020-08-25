@@ -15,6 +15,18 @@ describe 'SQL generation' do
       Country.nql(q).should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE \"countries\".\"name\" = 'abcd'"
     end
 
+    it 'With parentheses' do
+      q = '(name = abcd)'
+      a = Country.nql(q)
+      a.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE \"countries\".\"name\" = 'abcd'"
+    end
+
+    it 'With parentheses and boolean value' do
+      q = '(landlocked = true)'
+      a = Country.nql(q)
+      a.should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE \"countries\".\"landlocked\" = 't'"
+    end
+
     it 'Not equals' do
       q = 'name != abcd'
       Country.nql(q).should produce_sql "SELECT \"countries\".* FROM \"countries\"  WHERE (\"countries\".\"name\" != 'abcd')"

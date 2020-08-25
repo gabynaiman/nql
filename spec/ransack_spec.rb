@@ -80,7 +80,20 @@ describe 'Ransack Query' do
 
     it 'Model references' do
       q = parser.parse('models.id = 1234').to_ransack
+      q[:c][0].should have_attribute 'models_id'
+      q[:c][0].should have_predicate 'eq'
+      q[:c][0].should have_value '1234'
+    end
 
+    it 'Single comparison with parentheses and spaces' do
+      q = parser.parse('( models.id = 1234 )').to_ransack
+      q[:c][0].should have_attribute 'models_id'
+      q[:c][0].should have_predicate 'eq'
+      q[:c][0].should have_value '1234'
+    end
+
+    it 'Single comparison with parentheses' do
+      q = parser.parse('(models.id = 1234)').to_ransack
       q[:c][0].should have_attribute 'models_id'
       q[:c][0].should have_predicate 'eq'
       q[:c][0].should have_value '1234'
